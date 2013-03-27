@@ -9,7 +9,7 @@ http://www.partechit.nl/blog/2013/03/monitor-the-duration-of-all-pipelines
 Release notes
 ---------------
 *1.0.0*
-Initial release
+- Initial release
 
 *1.0.1*
 - Bugs in configuration fixed

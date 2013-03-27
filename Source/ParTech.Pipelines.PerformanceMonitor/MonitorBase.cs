@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Sitecore.Configuration;
+using Sitecore.Diagnostics;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -12,15 +14,21 @@ namespace ParTech.Pipelines.PerformanceMonitor
     {
         public static object FileLock = new object();
 
-        private const string LogFileNameFormat = "performance.{0:yyyyMMdd}.txt";
-
         public string PipelineName { get; set; }
 
         public bool Enabled
         {
             get
             {
-                return Sitecore.Configuration.Settings.GetBoolSetting("ParTech.PerformanceMonitor.Enabled", false);
+                return Settings.GetBoolSetting("ParTech.PerformanceMonitor.Enabled", false);
+            }
+        }
+
+        public string LogFileNameFormat
+        {
+            get
+            {
+                return Settings.GetSetting("ParTech.PerformanceMonitor.LogFileNameFormat", "performance.*.txt");
             }
         }
 
@@ -38,15 +46,20 @@ namespace ParTech.Pipelines.PerformanceMonitor
         /// </summary>
         protected void Start()
         {
+            Profiler.StartOperation(PipelineName);
             WriteLog(string.Concat(PipelineName, " start"));
         }
 
         /// <summary>
         /// Inidicates that a pipeline has started processing.
         /// </summary>
-        protected void Start(string info)
+        /// <param name="description">Extra description of the pipeline (e.g. the field that is being rendered in the renderField pipeline)</param>
+        protected void Start(string description)
         {
-            WriteLog(string.Concat(PipelineName, " [", info, "] start"));
+            string d = string.Concat(PipelineName, " [", description, "]");
+
+            Profiler.StartOperation(d);
+            WriteLog(string.Concat(d, " start"));
         }
 
         /// <summary>
@@ -54,15 +67,20 @@ namespace ParTech.Pipelines.PerformanceMonitor
         /// </summary>
         protected void End()
         {
+            Profiler.EndOperation(PipelineName);
             WriteLog(string.Concat(PipelineName, " end"));
         }
 
         /// <summary>
         /// Indicates that the last processor in a pipeline has been executed.
         /// </summary>
-        protected void End(string info)
+        /// <param name="description">Extra description of the pipeline (e.g. the field that is being rendered in the renderField pipeline)</param>
+        protected void End(string description)
         {
-            WriteLog(string.Concat(PipelineName, " [", info, "] end"));
+            string d = string.Concat(PipelineName, " [", description, "]");
+
+            Profiler.EndOperation(d);
+            WriteLog(string.Concat(d, " end"));
         }
 
         /// <summary>
@@ -76,12 +94,13 @@ namespace ParTech.Pipelines.PerformanceMonitor
                 return;
             }
 
-            string fileName = Path.Combine(Sitecore.Configuration.Settings.DataFolder, "logs", string.Format(LogFileNameFormat, DateTime.Now));
-            string line = string.Format("[{0:HH:mm:ss.fff}] {1}\r\n", DateTime.Now, message);
+            string fileName = LogFileNameFormat.Replace("*", DateTime.Today.ToString("yyyyMMdd"));
+            string filePath = Path.Combine(Settings.LogFolder, fileName);
+            string logLine = string.Format("[{0:HH:mm:ss.fff}] {1}\r\n", DateTime.Now, message);
 
             lock (FileLock)
             {
-                File.AppendAllText(fileName, line);
+                File.AppendAllText(filePath, logLine);
             }
         }
     }

@@ -9,21 +9,21 @@ using Sitecore.Pipelines.RenderField;
 
 namespace ParTech.Pipelines.PerformanceMonitor
 {
-    public class End : MonitorBase
+    public class MonitorStart : MonitorBase
     {
-        public End(string pipelineName)
+        public MonitorStart(string pipelineName)
             : base(pipelineName)
         {
         }
 
         public void Process(PipelineArgs args)
         {
-            End();
+            Start();
         }
 
         public void Process(RenderFieldArgs args)
         {
-            End(args.FieldName);
+            Start(args.FieldName);
         }
     }
 }

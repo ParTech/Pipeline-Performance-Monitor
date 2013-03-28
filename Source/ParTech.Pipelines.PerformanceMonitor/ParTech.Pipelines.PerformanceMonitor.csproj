@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ParTech.Pipelines.PerformanceMonitor</RootNamespace>
-    <AssemblyName>ParTech.Pipelines</AssemblyName>
+    <AssemblyName>ParTech.Pipelines.PerformanceMonitor</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />

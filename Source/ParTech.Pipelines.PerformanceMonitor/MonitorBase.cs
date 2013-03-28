@@ -20,7 +20,7 @@ namespace ParTech.Pipelines.PerformanceMonitor
         {
             get
             {
-                return Settings.GetBoolSetting("ParTech.PerformanceMonitor.Enabled", false);
+                return Settings.GetBoolSetting("ParTech.Pipelines.PerformanceMonitor.Enabled", false);
             }
         }
 
@@ -28,7 +28,7 @@ namespace ParTech.Pipelines.PerformanceMonitor
         {
             get
             {
-                return Settings.GetSetting("ParTech.PerformanceMonitor.LogFileNameFormat", "performance.*.txt");
+                return Settings.GetSetting("ParTech.Pipelines.PerformanceMonitor.LogFileNameFormat", "performance.*.txt");
             }
         }
 

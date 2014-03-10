@@ -1,29 +1,38 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Sitecore.Jobs;
-using Sitecore.Pipelines;
-using Sitecore.Pipelines.RenderField;
-
-namespace ParTech.Pipelines.PerformanceMonitor
+﻿namespace ParTech.Pipelines.PerformanceMonitor
 {
+    using Sitecore.Pipelines;
+    using Sitecore.Pipelines.RenderField;
+
+    /// <summary>
+    /// Processor that is called as first processor in a pipeline.
+    /// </summary>
     public class MonitorStart : MonitorBase
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MonitorStart"/> class.
+        /// </summary>
+        /// <param name="pipelineName"></param>
         public MonitorStart(string pipelineName)
             : base(pipelineName)
         {
         }
 
+        /// <summary>
+        /// Processes the specified arguments.
+        /// </summary>
+        /// <param name="args">The arguments.</param>
         public void Process(PipelineArgs args)
         {
-            Start();
+            this.Start();
         }
 
+        /// <summary>
+        /// Processes the specified arguments.
+        /// </summary>
+        /// <param name="args">The arguments.</param>
         public void Process(RenderFieldArgs args)
         {
-            Start(args.FieldName);
+            this.Start(args.FieldName);
         }
     }
 }
